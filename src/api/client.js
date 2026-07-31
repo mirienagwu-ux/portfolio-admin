@@ -10,4 +10,15 @@ const client = axios.create({
   },
 });
 
+// Attach the auth token (if present) to every outgoing request.
+// This satisfies Assignment 4 Part I.7: protected requests must
+// include an Authorization header.
+client.interceptors.request.use((config) => {
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export default client;
